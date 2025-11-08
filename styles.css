@@ -1,0 +1,105 @@
+:root{
+  --bg:#f6f7fb; /* fallback */
+  --card:#ffffff;
+  --text:#111827;
+  --muted:#6b7280;
+  --accent:#4f46e5;
+  /* franjas */
+  --stripe-purple:#6d28d9; /* morado */
+  --stripe-pink:#ec4899;   /* rosado */
+  --stripe-cyan:#06b6d4;   /* celeste */
+  /* RGB para usar en rgba(...) en las bandas difuminadas */
+  --stripe-purple-rgb: 109,40,217;
+  --stripe-pink-rgb: 236,72,153;
+  --stripe-cyan-rgb: 6,182,212;
+}
+
+*{box-sizing:border-box}
+body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; color:var(--text); min-height:100vh; display:flex; align-items:center; justify-content:center;}
+
+/* Fondo general: 3 franjas (morado, rosado, celeste) con transiciones suaves */
+body{
+  /* fallback sólido si el gradiente difuminado no carga */
+  background: var(--bg);
+  min-height:100vh;
+}
+
+/* Capa de fondo muy difuminada usando un pseudo-elemento: */
+/* Franjas base (sin difuminado): morado / rosado / celeste. */
+/* Usamos un elemento .bg (insertado en index.html) para controlar el fondo.
+   Esto suele ser más fiable que usar ::before/::after en <body> en algunos
+   navegadores y evita problemas de stacking y recorte. */
+.bg{
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Franjas base (sin difuminado) */
+.bg::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--stripe-purple) 0% 33.333%,
+    var(--stripe-pink) 33.333% 66.666%,
+    var(--stripe-cyan) 66.666% 100%
+  );
+}
+
+/* Bandas difuminadas solamente en las uniones */
+.bg::after{
+  content: '';
+  position: absolute;
+  inset: 0;
+  transform: scale(1.02);
+  pointer-events: none;
+  background-image:
+    linear-gradient(to bottom, rgba(var(--stripe-purple-rgb),0.95), rgba(var(--stripe-purple-rgb),0)),
+    linear-gradient(to top,    rgba(var(--stripe-pink-rgb),0.95),   rgba(var(--stripe-pink-rgb),0)),
+    linear-gradient(to bottom, rgba(var(--stripe-pink-rgb),0.95),   rgba(var(--stripe-pink-rgb),0)),
+    linear-gradient(to top,    rgba(var(--stripe-cyan-rgb),0.95),   rgba(var(--stripe-cyan-rgb),0));
+  background-size: 100% 10%, 100% 10%, 100% 10%, 100% 10%;
+  background-position: 0 33.333%, 0 33.333%, 0 66.666%, 0 66.666%;
+  background-repeat: no-repeat;
+  filter: blur(44px);
+}
+.container{width:min(720px,96%); background:transparent; padding:28px; border-radius:14px; box-shadow:0 6px 30px rgba(15,23,42,0.08); text-align:center; position:relative; z-index:1}
+.profile{margin-bottom:18px}
+.avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;border:4px solid rgba(0,0,0,0.06)}
+h1{margin:12px 0 6px;font-size:1.6rem}
+p{margin:0;color:var(--muted)}
+.links{display:flex;flex-direction:column;gap:12px;margin:20px 0}
+.link-item{display:block;padding:12px 16px;border-radius:10px;background:transparent;color:var(--text);text-decoration:none;font-weight:600;border:1px solid rgba(15,23,42,0.06)}
+.link-item{
+  display:block;
+  padding:12px 16px;
+  border-radius:10px;
+  text-decoration:none;
+  font-weight:700;
+  color:#fff;
+  background: linear-gradient(90deg, var(--stripe-purple), var(--stripe-pink));
+  border: none;
+  box-shadow: 0 8px 20px rgba(16,24,40,0.12);
+  transition: transform .16s ease, box-shadow .16s ease, opacity .12s ease;
+}
+.link-item:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(16,24,40,0.18);opacity:0.98}
+
+/* Hacer más llamativo el texto de la bio */
+#bio{color:var(--stripe-pink);font-weight:600}
+.actions{display:flex;gap:10px;justify-content:center}
+.btn{padding:8px 12px;border-radius:8px;border:1px solid rgba(15,23,42,0.06);background:transparent;cursor:pointer}
+
+/* Dark theme */
+body.dark{background:#0b1020}
+body.dark .container{background:#071028;color:#e6eef8}
+/* En modo oscuro mantenemos la eliminación del fondo de los botones */
+body.dark .link-item{background:transparent;border-color:rgba(255,255,255,0.06)}
+body.dark .btn{color:#e6eef8;border-color:rgba(255,255,255,0.06)}
+
+@media (min-width:640px){
+  .links{gap:14px}
+  .link-item{font-size:1.05rem}
+}

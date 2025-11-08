@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Reproductor - Música</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Estilos específicos del reproductor (pequeños) */
+    .player{max-width:720px;margin:56px auto;padding:28px;border-radius:12px;background:rgba(255,255,255,0.9);box-shadow:0 10px 40px rgba(2,6,23,0.2);text-align:center}
+    .track-title{font-weight:700;margin-bottom:8px}
+    .controls{display:flex;gap:12px;align-items:center;justify-content:center;margin:14px 0}
+    .btn-icon{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(0,0,0,0.08);background:transparent;cursor:pointer}
+    .progress{width:100%;height:10px;background:rgba(0,0,0,0.06);border-radius:999px;overflow:hidden;margin-top:12px}
+    .progress > i{display:block;height:100%;background:linear-gradient(90deg, #7c3aed, #06b6d4);width:0%}
+    .time{display:flex;justify-content:space-between;font-size:0.9rem;margin-top:6px;color:var(--muted)}
+    .muted-note{font-size:0.9rem;color:var(--muted);margin-top:8px}
+    .playlist{margin-top:16px;text-align:left}
+    .playlist li{padding:6px 8px;border-radius:8px}
+    .playlist li.active{background:rgba(0,0,0,0.04);font-weight:700}
+    @media (prefers-color-scheme: dark){
+      .player{background:rgba(7,16,40,0.8);color:#e6eef8}
+      .btn-icon{border-color:rgba(255,255,255,0.06)}
+      .progress{background:rgba(255,255,255,0.06)}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+  <main class="container player" role="application">
+    <h2>Reproductor de Música</h2>
+    <div class="track-title" id="trackTitle">Cargando lista...</div>
+
+    <div class="controls">
+      <button id="prevBtn" class="btn-icon" title="Anterior">⏮</button>
+      <button id="playBtn" class="btn-icon" title="Play/Pausa">▶️</button>
+      <button id="nextBtn" class="btn-icon" title="Siguiente">⏭</button>
+      <button id="shuffleBtn" class="btn-icon" title="Aleatorio">🔀</button>
+    </div>
+
+    <div class="progress" id="progress"><i></i></div>
+    <div class="time"><span id="current">0:00</span><span id="duration">0:00</span></div>
+
+
+    <ul class="playlist" id="playlist"></ul>
+  </main>
+
+  <script src="musica.js"></script>
+</body>
+</html>
